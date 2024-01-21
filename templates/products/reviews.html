@@ -73,20 +73,20 @@
                         </a>
                     {% endif %}
                 </li>
-
-               {% if pages > 1 %}
-                    <div class="pagination">
-                        <span class="step-links">
-                            {% for num in paginator.page_range %}
-                                {% if page == num %}
-                                    <span class="current">{{ num }}</span>
-                                {% else %}
-                                    <a href="?page={{ num }}">{{ num }}</a>
-                                {% endif %}
-                            {% endfor %}
-                        </span>
-                    </div>
-                {% endif %}
+<!-- do something -->
+<!--               {% if pages > 1 %}-->
+<!--                    <div class="pagination">-->
+<!--                        <span class="step-links">-->
+<!--                            {% for num in paginator.page_range %}-->
+<!--                                {% if page == num %}-->
+<!--                                    <span class="current">{{ num }}</span>-->
+<!--                                {% else %}-->
+<!--                                    <a href="?page={{ num }}">{{ num }}</a>-->
+<!--                                {% endif %}-->
+<!--                            {% endfor %}-->
+<!--                        </span>-->
+<!--                    </div>-->
+<!--                {% endif %}-->
 
                 {% if pro_reviews.has_next %}
                     <li class="page-item">
