@@ -199,7 +199,7 @@
                                         <div class="media-body">
                                             <h6>{{ review.user.username }}<small> - <i>{{ review.created_at|date:"Y-m-d"}}</i></small></h6>
                                             <div class="text-primary mb-2">
-                                                {{ review.rating }}<i class="fas fa-star"></i>
+                                                <i class="fas fa-star">{{ review.rating }}</i>
                                             </div>
                                             <p>{{ review.review }}</p>
                                         </div>

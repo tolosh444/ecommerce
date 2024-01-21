@@ -10,9 +10,10 @@ from core.utils.helpers import get_values_from_choices
 from core.choices import SIZE_CHOICE, COLOR_CHOICES, RATING_CHOICES
 from django.db.models import Q, Avg
 from .forms import ProductReviewForm
-# Create your views here.
+
 
 class ProductListView(ListView):
+    #pagination
     paginate_by = 6
     model = Product
     template_name = "products/products.html"
@@ -116,19 +117,16 @@ def product_review(request, slug):
     review_count = pro_reviews.count()
 
 
-    ###################### You need add this in HTML and see how it works#######################
     # Pagination
     paginator = Paginator(pro_reviews, 3)  # Show 3 reviews per page
-    page = request.GET.get('page')
-    pages = paginator.num_pages
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
 
     try:
-        pro_reviews = paginator.page(page)
+        pro_reviews = paginator.page(page_number)
     except PageNotAnInteger:
-        # If page is not an integer, deliver the first page.
         pro_reviews = paginator.page(1)
     except EmptyPage:
-        # If page is out of range (e.g., 9999), deliver the last page of results.
         pro_reviews = paginator.page(paginator.num_pages)
 
     if request.method == "GET":
@@ -152,7 +150,8 @@ def product_review(request, slug):
         "product_detail": product_detail,
         "review_form": review_form,
         "review_count": review_count,
-        "pages": pages,
+        "page_obj": page_obj,
+
 
     }
     return render(request, "products/reviews.html", context)
@@ -211,6 +210,18 @@ def category_list(request, cat_slug):
     wishlist_count = Wishlist.objects.filter(user=request.user.id).count()
     shopping_count = Order.objects.filter(user=request.user.id).count()
 
+    # Pgination
+    paginator = Paginator(products, 6)  # Show 6 reviews per page
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    try:
+        products = paginator.page(page_number)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+
     context = {
         "cat_det": cat_det,
         "products": products,
@@ -218,6 +229,7 @@ def category_list(request, cat_slug):
         "wishlist_count": wishlist_count,
         "shopping_count": shopping_count,
         "sub_categories": sub_categories,
+        "page_obj": page_obj
 
                 }
     return render(request, 'products/category_detail.html', context)
@@ -237,6 +249,21 @@ def sub_category_list(request, cat_slug, sub_slug):
     wishlist_count = Wishlist.objects.filter(user=request.user.id).count()
     shopping_count = Order.objects.filter(user=request.user.id).count()
 
+    # Pgination
+    paginator = Paginator(sub_products, 6)  # Show 6 reviews per page
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    try:
+        sub_products = paginator.page(page_number)
+    except PageNotAnInteger:
+        sub_products = paginator.page(1)
+    except EmptyPage:
+        sub_products = paginator.page(paginator.num_pages)
+
+
+
+
     context = {
 
         'category': category,
@@ -246,18 +273,10 @@ def sub_category_list(request, cat_slug, sub_slug):
         "shopping_count": shopping_count,
         "sub_products": sub_products,
         "categories": categories,
+        "page_obj": page_obj
                 }
     return render(request, "products/subcategory_detail.html", context)
 
 def add_review(request, pid):
     product = get_object_or_404(Product, id=pid)
     user = request.user
-
-    # review_instance, created = ProductReviews.objects.get_or_create(user=user, product=product)
-    # if created:  # Only save the instance if it was newly created
-    #     print("ne var ne yox?")
-    #     review_instance.save()
-    #     messages.success(request, "Thank you for contacting us! We will be in touch shortly.")
-    # else:
-    #     messages.error(request, "Something went wrong!!!")
-    # return HttpResponseRedirect("/")
