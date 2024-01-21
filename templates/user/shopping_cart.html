@@ -1,0 +1,93 @@
+{% extends 'base/base.html' %}
+{% load static widget_tweaks%}
+{% block content %}
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="text-center alert alert-{{message.tags}}">
+        {{message|safe}}
+    </div>
+        {% endfor %}}
+    {% endif %}
+    <!-- Cart Start -->
+    <div class="container-fluid pt-5 mb-90 mt-90">
+        <div class="row px-xl-5">
+            <div class="col-lg-8 table-responsive mb-5">
+                <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-secondary text-dark">
+                        <tr>
+                            <th>Products</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    {% for shopping_cart_item in shopping_cart_items %}
+                    <tbody class="align-middle">
+                        <tr id="table-{{ forloop.counter }}">
+                            <td class="align-middle"><img src="{{ shopping_cart_item.product.product_img.first.image.url }}" alt="{{ shopping_cart_item.product.name }} Image" style="width: 50px;"><a href="{% url 'product-detail' shopping_cart_item.product.slug %}" >{{ shopping_cart_item.product.name }}</a></td>
+                            <td class="align-middle"><span  id="price-{{ forloop.counter }}">  {{ shopping_cart_item.product.selling_price }}</span> {{ shopping_cart_item.product.price_currency }}</td>
+                            <td class="align-middle">
+                                <div class="input-group quantity mx-auto" style="width: 100px;">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-minus" onclick="calcTotal('{{ forloop.counter }}')">
+                                        <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <input type="text" class="form-control form-control-sm bg-secondary text-center" onkeyup="calcTotal('{{ forloop.counter }}')" value="{{ shopping_cart_item.product_qty }}">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-plus" onclick="calcTotal('{{ forloop.counter }}')">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="align-middle" id="total-{{ forloop.counter }}">{{ shopping_cart_item.total_price }} {{ shopping_cart_item.product.price_currency }}</td>
+                           <td class="align-middle"><button class="btn btn-sm btn-primary" onclick="removeRow('#table-{{ forloop.counter }}')"><i class="fa fa-times"></i></button></td>
+
+                        </tr>
+
+                    </tbody>
+                    {% endfor %}
+
+                </table>
+            </div>
+            <div class="col-lg-4">
+            <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Subtotal</h6>
+                            <h6 class="font-weight-medium">{{ total_price }}</h6>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Shipping</h6>
+                            <h6 class="font-weight-medium">$10</h6>
+                        </div>
+                    </div>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Total</h5>
+                            <h5 class="font-weight-bold">{{ grand_total }}</h5>
+                        </div>
+                        <a href="{% url 'checkout-order'  %}">
+                            <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+    </div>
+    <!-- Cart End -->
+
+{% endblock %}
+
+{% block js %}
+
+    <script src="{% static 'core/apps/order/basket.js' %}"></script>
+{% endblock %}

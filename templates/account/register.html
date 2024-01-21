@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+{% load static widget_tweaks%}
+{% block content %}
+
+<div class="container pt-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">SIGN UP</span></h2>
+        </div>
+        <div class="row px-xl-5">
+            <div class="col-lg-7 mb-5">
+                <div class="contact-form">
+                    <div id="success"></div>
+                    <form method="POST" novalidate="novalidate">
+                        {% csrf_token %}
+                        <div class="control-group">
+                            <label class="mt-4" >First Name:</label>
+                          {% render_field form.first_name type="text" placeholder="First name" class="form-control"  data-validation-required-message="Please enter your first name" placeholder="Name" style="opacity: 0.8;" %}
+                        </div>
+                        <div class="control-group">
+                            <label class="mt-4" >Last Name:</label>
+                          {% render_field form.last_name type="text" placeholder="Surname name" class="form-control" required="required" data-validation-required-message="Please enter your lasr name" placeholder="Surname" style="opacity: 0.8;" %}
+                        </div>
+                        <div class="control-group">
+                            <label class="mt-4" >Gender:</label>
+                          {% render_field form.gender type="RadioSelect"  class="form-control" style="opacity: 0.8;" %}
+                        </div>
+                        <div class="control-group">
+                            <label class="mt-4" >Eamil:</label>
+                          {% render_field form.email type="email" class="form-control" required="required" data-validation-required-message="Please enter your email" placeholder="Your Email" style="opacity: 0.8;" %}
+                        </div>
+                        <div class="control-group">
+                            <label class="mt-4" >Password:</label>
+                           {% render_field form.password1 type="password" class="form-control"  data-validation-required-message="Please enter your password" placeholder="********" style="opacity: 0.8;"%}
+                        </div>
+                        <div class="control-group">
+                            <label class="mt-4" >Retry password:</label>
+                            {% render_field form.password2 type="password" class="form-control"  data-validation-required-message="Please enter your password" placeholder="********" style="opacity: 0.8;"%}
+
+                        </div>
+
+
+
+                        <div class="mt-30">
+                            <button class="btn btn-primary py-2 px-4" style="margin-top: 30px;" type="submit" > Sign up </button>
+                            <button class="btn btn-secondary py-2 px-4" style="margin-top: 30px;"><a href="{% url 'login' %}"> Log in </a></button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

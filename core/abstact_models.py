@@ -1,0 +1,16 @@
+from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+
+class AbstractBaseModel(models.Model):
+    created_at = models.DateTimeField(
+        _("Created at"),
+        auto_now=True,
+    )
+    updated_at = models.DateTimeField(
+        _("Updated at"),
+        auto_now=True,
+    )
+
+    class Meta:
+        abstract = True

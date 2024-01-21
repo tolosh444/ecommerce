@@ -1,0 +1,69 @@
+from django.db import models
+from core.abstact_models import AbstractBaseModel
+from django.utils.translation import gettext_lazy as _
+# Create your models here.
+
+class NewsLetter(AbstractBaseModel):
+    name = models.CharField(
+        _('Name'),
+        max_length=20
+    )
+    email = models.EmailField(
+        _('Email'),
+        max_length=30
+    )
+    class Meta:
+        verbose_name = _('News Letter')
+        verbose_name_plural = _('News Letters')
+
+    def __str__(self):
+        return f"Name: {self.name}. Subject: {self.email}"
+
+class ContactUs(AbstractBaseModel):
+    full_name = models.CharField(
+        _('Full_name'),
+        max_length=20
+    )
+    email = models.EmailField(
+        _('Email'),
+        max_length=30
+    )
+    subject = models.CharField(
+        _('Subject'),
+        max_length=20
+    )
+    message = models.TextField(
+        _('Text')
+    )
+    phone_number = models.CharField(
+        _('Phone Num'),
+        max_length=13,
+    )
+
+
+    class Meta:
+        verbose_name = _('Contact us')
+        verbose_name_plural = _('Contacts us')
+
+    def __str__(self):
+        return f"Name: {self.full_name}. Subject: {self.subject}"
+
+
+class Settings(AbstractBaseModel):
+    title = models.CharField(max_length=20)
+    description = models.TextField()
+    phone_num = models.CharField(max_length=20)
+    address = models.CharField(max_length=50)
+    email = models.CharField(max_length=20)
+    facebook = models.URLField()
+    youtube = models.URLField()
+    instagram = models.URLField()
+    linkedin = models.URLField()
+    twitter = models.URLField()
+
+    class Meta:
+        verbose_name = 'Site Settings'
+        verbose_name_plural = 'Site Settings'
+
+    def __str__(self):
+        return "Site Settings"

@@ -1,0 +1,115 @@
+{% extends 'base/base.html' %}
+{% load static widget_tweaks%}
+{% block content %}
+
+
+ <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Reviews</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="">Products</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">{{product_detail.name}}</p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Rviews</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+        {% if messages %}
+            {% for message in messages %}
+            <div class="text-center alert alert-{{message.tags}}">
+                {{message|safe}}
+            </div>
+            {% endfor %}
+
+        {% endif %}
+    <!-- Contact Start -->
+    <div class="container-fluid pt-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">Reviews for: {{product_detail.name}} </span></h2>
+        </div>
+
+
+
+
+        <div class="row">
+    <div class="col-md-6">
+
+        {% if review_count > 1 %}
+            <h4 class="mb-4">{{ review_count }} reviews for "{{ product_detail.name }}"</h4>
+        {% else %}
+            <h4 class="mb-4">{{ review_count }} review for "{{ product_detail.name }}"</h4>
+        {% endif %}
+
+        {% if pro_reviews %}
+            {% for review in pro_reviews %}
+                <div class="media mb-4" style="border-radius: 10px; border: 1px solid #ccc; padding: 10px;">
+                    <img src="{{ review.user.image.url }}" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px; border-radius: 20px;">
+                    <div class="media-body">
+                        <h6>{{ review.user.username }}<small> - <i>{{ review.created_at|date:"Y-m-d"}}</i></small></h6>
+                        <div class="text-primary mb-2">
+                            {{ review.rating }}<i class="fas fa-star"></i>
+                        </div>
+                        <p>{{ review.review }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h5 class="mb-4">There are no reviews yet!</h5>
+        {% endif %}
+        <!-- Pagination Controls -->
+{% if pro_reviews.has_other_pages %}
+    <div class="col-12 pb-1">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mb-3">
+                <li class="page-item">
+                    {% if pro_reviews.has_previous %}
+                        <a class="page-link" href="?page={{ pro_reviews.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    {% endif %}
+                </li>
+
+               {% if pages > 1 %}
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% for num in paginator.page_range %}
+                                {% if page == num %}
+                                    <span class="current">{{ num }}</span>
+                                {% else %}
+                                    <a href="?page={{ num }}">{{ num }}</a>
+                                {% endif %}
+                            {% endfor %}
+                        </span>
+                    </div>
+                {% endif %}
+
+                {% if pro_reviews.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ pro_reviews.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+{% endif %}
+
+
+    </div>
+</div>
+
+
+    </div>
+    <!-- Contact End -->
+
+
+
+
+{% endblock %}

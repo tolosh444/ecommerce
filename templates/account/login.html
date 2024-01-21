@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+{% load static widget_tweaks%}
+{% block content %}
+
+<div class="container pt-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">LOG IN</span></h2>
+        </div>
+        <div class="row px-xl-5">
+            <div class="col-lg-7 mb-5">
+                <div class="contact-form">
+                    <div id="success"></div>
+                    <form method="POST" novalidate="novalidate">
+                        {% csrf_token %}
+                        <div class="control-group">
+                            <label class="mt-4" >Email:</label>
+                          {% render_field form.username type="email" class="form-control" required="required" data-validation-required-message="Please enter your email" placeholder="Your Email" style="opacity: 0.8;" %}
+                        </div>
+                        <div class="control-group">
+                            <label class="mt-4" >Password:</label>
+                          {% render_field form.password type="password" class="form-control"  data-validation-required-message="Please enter your password" placeholder="********" style="opacity: 0.8;" %}
+                        </div>
+
+
+                        <div class="mt-30">
+                            <button class="btn btn-primary py-2 px-4" style="margin-top: 30px;" type="submit" > Sign in </button>
+                            <button class="btn btn-secondary py-2 px-4" style="margin-top: 30px;"><a href="{% url 'register' %}"> Sign up </a></button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}
