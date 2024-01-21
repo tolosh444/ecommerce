@@ -116,6 +116,14 @@ def product_review(request, slug):
     pro_reviews = ProductReviews.objects.filter(product=product_detail).order_by("-created_at")
     review_count = pro_reviews.count()
 
+    # Counting wishlist and basket
+    wishlist_count = Wishlist.objects.filter(user=request.user.id).count()
+    shopping_count = Order.objects.filter(user=request.user.id).count()
+
+    # Cat and SubCat for navbar dropdown
+    categories = Category.objects.all()
+    sub_categories = SubCategory.objects.all()
+
 
     # Pagination
     paginator = Paginator(pro_reviews, 3)  # Show 3 reviews per page
@@ -151,6 +159,10 @@ def product_review(request, slug):
         "review_form": review_form,
         "review_count": review_count,
         "page_obj": page_obj,
+        "wishlist_count": wishlist_count,
+        "shopping_count": shopping_count,
+        "categories": categories,
+        "sub_categories": sub_categories,
 
 
     }
