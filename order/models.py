@@ -48,8 +48,8 @@ class Order(AbstractBaseModel):
 
 
     class Meta:
-        verbose_name = 'Order'
-        verbose_name_plural = 'Orders'
+        verbose_name = 'Basket item'
+        verbose_name_plural = 'Basket items'
 
     def __str__(self):
         return f"{self.user.email}'s Orderlist"
@@ -73,7 +73,7 @@ class Checkout(AbstractBaseModel):
     email = models.CharField(max_length=150, null=False)
     phone_number = models.CharField(max_length=150, null=False)
     address1 = models.TextField(null=False)
-    address2 = models.TextField(null=False)
+    address2 = models.TextField(null=True)
     country = models.CharField(max_length=150, choices=COUNTRY_CHOICES , null=False)
     city = models.CharField(max_length=150, null=False)
     state = models.CharField(max_length=150, null=False)
@@ -87,6 +87,9 @@ class Checkout(AbstractBaseModel):
 
     def __str__(self):
         return f"Id: {self.id} Tracking no:  {self.tracking_no}"
+    class Meta:
+        verbose_name = 'Order'
+        verbose_name_plural = 'Orders'
 class CheckoutItem(AbstractBaseModel):
     checkout = models.ForeignKey(
         "order.Checkout",
