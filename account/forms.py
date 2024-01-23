@@ -6,13 +6,21 @@ from django.contrib.auth.models import User
 
 
 class UserRegisterForm(UserCreationForm):
+
+
+
+
     first_name = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': _('Your first name')
     }))
     last_name = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': _('Your last name')
     }))
-
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if Account.objects.filter(email=email).exists():
+            raise forms.ValidationError('This email address is already in use. Please choose a different one.')
+        return email
     email = forms.EmailField(widget=forms.EmailInput(attrs={
         'placeholder': _('youremail@example.com')
     }))
