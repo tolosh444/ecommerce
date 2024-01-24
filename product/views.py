@@ -45,9 +45,9 @@ def product_list(request, slug):
 
     # Products details
     product_det = Product.objects.get(slug=slug)
+    product_quantity = product_det.quantity
 
     # You may like in details page
-
     category_ids = [obj.id for obj in product_det.category.all()]
     subcategory_ids = [obj.id for obj in product_det.sub_category.all()]
     you_like = Product.objects.filter(category__in=category_ids, sub_category__in=subcategory_ids).distinct()[:8]
@@ -85,7 +85,7 @@ def product_list(request, slug):
 
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-    # pro_reviews = product_det.review_product.order_by("-created_at")[:3]
+
 
 
 
@@ -101,7 +101,8 @@ def product_list(request, slug):
         "sub_categories": sub_categories,
         "you_like": you_like,
         "sizes": sizes,
-        "colors": colors
+        "colors": colors,
+        "product_quantity": product_quantity
 
     }
 

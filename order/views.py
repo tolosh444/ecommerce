@@ -126,12 +126,11 @@ def save_data(request):
 
 
 def checkout_order(request):
-
+    # Coounters wor Wishlist and Shopping cart
     wishlist_count = Wishlist.objects.filter(user=request.user).count()
     shopping_count = Order.objects.filter(user=request.user).count()
 
     rawcart = Order.objects.filter(user=request.user)
-
     for item in rawcart:
         if item.product_qty > item.product.quantity:
             Order.objects.get(id=item.id).delete()
@@ -170,7 +169,8 @@ def place_order(request):
         neworder.zip_code = request.POST.get('zip_code')
 
 
-        neworder.payment_mode = request.POST.get('payment_mode')
+        # neworder.payment_mode = request.POST.get('payment_mode')
+        # neworder.payment_id = request.POST.get('payment_id')
 
         order = Order.objects.filter(user=request.user)
         order_total_price = sum(item.product.selling_price * item.product_qty for item in order)
