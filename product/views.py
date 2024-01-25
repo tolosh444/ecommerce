@@ -18,6 +18,18 @@ class ProductListView(ListView):
     model = Product
     template_name = "products/products.html"
 
+    # Sorting
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        sort_by = self.request.GET.get('sort_by')
+        if sort_by == 'price':
+            queryset = queryset.order_by('selling_price')
+        elif sort_by == 'latest':
+            queryset = queryset.order_by('-created_at')
+        elif sort_by == 'highest_price':
+            queryset = queryset.order_by('-selling_price')
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["wishlist_count"] = Wishlist.objects.filter(user=self.request.user.id).count()
@@ -25,6 +37,7 @@ class ProductListView(ListView):
 
         context["categories"]  = Category.objects.all()
         context["sub_categories"] = SubCategory.objects.all()
+
 
         return context
 
@@ -62,6 +75,8 @@ def product_list(request, slug):
     sizes = get_values_from_choices(SIZE_CHOICE)
     colors = get_values_from_choices(COLOR_CHOICES)
     rating = get_values_from_choices(RATING_CHOICES)
+
+
 
     # Review form for Product
     review_form = ProductReviewForm()
