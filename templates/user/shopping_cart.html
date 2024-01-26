@@ -44,7 +44,7 @@
                                 </div>
                             </td>
                             <td class="align-middle" id="total-{{ forloop.counter }}">{{ shopping_cart_item.total_price }} {{ shopping_cart_item.product.price_currency }}</td>
-                           <td class="align-middle"><button class="btn btn-sm btn-primary" onclick="removeRow('#table-{{ forloop.counter }}')"><i class="fa fa-times"></i></button></td>
+                           <td class="align-middle"><a href="{% url 'delete-from-cart' shopping_cart_item.product.id %}"><button class="btn btn-sm btn-primary"><i class="fa fa-times"></i></button></a></td>
 
                         </tr>
 

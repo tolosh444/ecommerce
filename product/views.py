@@ -42,13 +42,6 @@ class ProductListView(ListView):
         return context
 
 
-# def products(request):
-#     products = Product.objects.all().order_by("-created_at")[:9]
-#
-#     context = {
-#         "products": products,
-#     }
-#     return render(request, "products/products.html", context)
 
 def product_list(request, slug):
 
@@ -82,7 +75,7 @@ def product_list(request, slug):
     review_form = ProductReviewForm()
 
     pro_reviews = ProductReviews.objects.filter(product=product_det).order_by("-created_at")[:3]
-    review_count = pro_reviews.count()
+    review_count = ProductReviews.objects.filter(product=product_det).count()
 
     if request.method == "GET":
         review_form = ProductReviewForm(initial={'product': product_det})
@@ -131,6 +124,7 @@ def product_review(request, slug):
     product_detail = get_object_or_404(Product, slug=slug)
     pro_reviews = ProductReviews.objects.filter(product=product_detail).order_by("-created_at")
     review_count = pro_reviews.count()
+
 
     # Counting wishlist and basket
     wishlist_count = Wishlist.objects.filter(user=request.user.id).count()
@@ -199,6 +193,13 @@ def product_search(request):
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     searched_products = Product.objects.filter(Q(name__icontains=searched) | Q(description__icontains=searched) | Q(category__name__icontains=searched) | Q(sub_category__name__icontains=searched)).distinct()
 
+    sort_by = request.GET.get('sort_by')
+    if sort_by == 'price':
+        searched_products = Product.objects.filter(Q(name__icontains=searched) | Q(description__icontains=searched) | Q(category__name__icontains=searched) | Q(sub_category__name__icontains=searched)).distinct().order_by('selling_price')
+    elif sort_by == 'highest_price':
+        searched_products = Product.objects.filter(Q(name__icontains=searched) | Q(description__icontains=searched) | Q(category__name__icontains=searched) | Q(sub_category__name__icontains=searched)).distinct().order_by('-selling_price')
+    elif sort_by == 'latest':
+        searched_products = Product.objects.filter(Q(name__icontains=searched) | Q(description__icontains=searched) | Q(category__name__icontains=searched) | Q(sub_category__name__icontains=searched)).distinct().order_by('-created_at')
 
 
     page = request.GET.get('page', 1)
@@ -229,12 +230,22 @@ def product_search(request):
 
 def category_list(request, cat_slug):
     cat_det = get_object_or_404(Category, slug=cat_slug)
-    products = Product.objects.filter(category=cat_det)
+
+    sort_by = request.GET.get('sort_by')
+    if sort_by == 'price':
+        products = Product.objects.filter(category=cat_det).order_by('selling_price')
+    elif sort_by == 'latest':
+        products = Product.objects.filter(category=cat_det).order_by('-created_at')
+    elif sort_by == 'highest_price':
+        products = Product.objects.filter(category=cat_det).order_by('-selling_price')
+    else:
+        products = Product.objects.filter(category=cat_det)
 
 
     categories = Category.objects.all()
     sub_categories = SubCategory.objects.all()
 
+    # Counting Wishlist and Shopping cart
     wishlist_count = Wishlist.objects.filter(user=request.user.id).count()
     shopping_count = Order.objects.filter(user=request.user.id).count()
 
@@ -257,7 +268,12 @@ def category_list(request, cat_slug):
         "wishlist_count": wishlist_count,
         "shopping_count": shopping_count,
         "sub_categories": sub_categories,
-        "page_obj": page_obj
+        "page_obj": page_obj,
+        # "sort_by_low_high": sort_by_low_high,
+        # "sort_by_high_low": sort_by_high_low,
+        # "sort_by_latest": sort_by_latest
+
+
 
                 }
     return render(request, 'products/category_detail.html', context)
@@ -271,7 +287,17 @@ def sub_category_list(request, cat_slug, sub_slug):
     sub_categories = SubCategory.objects.all()
     category = get_object_or_404(Category, slug=cat_slug)
     subcategory = get_object_or_404(SubCategory, slug=sub_slug)
-    sub_products = Product.objects.filter(sub_category=subcategory)
+
+
+    sort_by = request.GET.get('sort_by')
+    if sort_by == 'price':
+        sub_products = Product.objects.filter(sub_category=subcategory).order_by('selling_price')
+    elif sort_by == 'latest':
+        sub_products = Product.objects.filter(sub_category=subcategory).order_by('-created_at')
+    elif sort_by == 'highest_price':
+        sub_products = Product.objects.filter(sub_category=subcategory).order_by('-selling_price')
+    else:
+        sub_products = Product.objects.filter(sub_category=subcategory)
 
 
     wishlist_count = Wishlist.objects.filter(user=request.user.id).count()
