@@ -12,33 +12,49 @@
                     <div id="success"></div>
                     <form method="POST" novalidate="novalidate">
                         {% csrf_token %}
-                        {% if form.errors %}
-                        <p class="text-danger bg-warning text-dark">{{ form.errors }}</p>
-                                    {% endif %}
+
                         <div class="control-group">
                             <label class="mt-4" >First Name:</label>
                           {% render_field form.first_name type="text" placeholder="First name" class="form-control"  data-validation-required-message="Please enter your first name" placeholder="Name" style="opacity: 0.8;" %}
+                        {% if form.errors %}
+                                        <span class="text-danger  text-danger msg_pass" style="display: block;">{{form.first_name.errors}}</span>
+                            {% endif %}
                         </div>
                         <div class="control-group">
                             <label class="mt-4" >Last Name:</label>
                           {% render_field form.last_name type="text" placeholder="Surname name" class="form-control" required="required" data-validation-required-message="Please enter your lasr name" placeholder="Surname" style="opacity: 0.8;" %}
+                        {% if form.errors %}
+                                        <span class="text-danger  text-danger msg_pass" style="display: block;">{{form.last_name.errors}}</span>
+                            {% endif %}
                         </div>
                         <div class="control-group">
                             <label class="mt-4" >Gender:</label>
                           {% render_field form.gender type="RadioSelect"  class="form-control" required="required" style="opacity: 0.8;" %}
+                            {% if form.errors %}
+                                        <span class="text-danger  text-danger msg_pass" style="display: block;">{{form.gender.errors}}</span>
+                            {% endif %}
                         </div>
                         <div class="control-group">
                             <label class="mt-4" >Eamil:</label>
                           {% render_field form.email type="email" class="form-control" required="required" data-validation-required-message="Please enter your email" placeholder="Your Email" style="opacity: 0.8;" %}
+                            {% if form.errors %}
+                                        <span class="text-danger  text-danger msg_pass" style="display: block;">{{form.email.errors}}</span>
+                            {% endif %}
                         </div>
                         <div class="control-group">
                             <label class="mt-4" >Password:</label>
                            {% render_field form.password1 type="password" class="form-control"  data-validation-required-message="Please enter your password" placeholder="********" style="opacity: 0.8;"%}
+                            {% if form.errors %}
+                                        <span class="text-danger  text-danger msg_pass" style="display: block;">{{form.password1.errors}}</span>
+                            {% endif %}
                         </div>
                         <div class="control-group">
-                            <label class="mt-4" >Retry password:</label>
+                            <label class="mt-4" >Confirm password:</label>
                             {% render_field form.password2 type="password" class="form-control"  data-validation-required-message="Please enter your password" placeholder="********" style="opacity: 0.8;"%}
 
+                            {% if form.errors %}
+                                        <span class="text-danger  text-danger msg_pass" style="display: block;">{{form.password2.errors}}</span>
+                            {% endif %}
                         </div>
 
 

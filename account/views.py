@@ -9,7 +9,7 @@ from django.views import generic
 
 from .forms import UserRegisterForm
 
-# Create your views here.
+
 
 User = get_user_model()
 

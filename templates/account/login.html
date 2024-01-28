@@ -12,13 +12,25 @@
                     <div id="success"></div>
                     <form method="POST" novalidate="novalidate">
                         {% csrf_token %}
+                          {% if form.non_field_errors %}
+                                {% for error in form.non_field_errors %}
+                                  <span class="text-danger msg_pass" style="display: block;">{{ error }}</span>
+                                {% endfor %}
+                              {% endif %}
                         <div class="control-group">
                             <label class="mt-4" >Email:</label>
-                          {% render_field form.username type="email" class="form-control" required="required" data-validation-required-message="Please enter your email" placeholder="Your Email" style="opacity: 0.8;" %}
+                          {% render_field form.username type="email" class="form-control" required="required" data-validation-required-message="Please enter your email" placeholder="example@example.com" style="opacity: 0.8;" %}
+                        {% if form.errors %}
+                                        <span class="text-danger  text-danger msg_pass" style="display: block;">{{form.username.errors}}</span>
+                            {% endif %}
                         </div>
                         <div class="control-group">
                             <label class="mt-4" >Password:</label>
                           {% render_field form.password type="password" class="form-control"  data-validation-required-message="Please enter your password" placeholder="********" style="opacity: 0.8;" %}
+                        {% if form.errors %}
+                                        <span class="text-danger  text-danger msg_pass" style="display: block;">{{form.password.errors}}</span>
+                            {% endif %}
+                        </div>
                         </div>
 
 
