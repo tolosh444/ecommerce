@@ -157,3 +157,12 @@ class ProductReviews(AbstractBaseModel):
 
     def get_rating(self):
         return self.rating
+class Subscrabed(AbstractBaseModel):
+    name = models.CharField(_('Name'), max_length=15, null=True)
+    email = models.EmailField(_('Email'), null=True)
+
+    class Meta:
+        verbose_name = 'Subscraber'
+        verbose_name_plural = 'Subscrabers'
+    def __str__(self):
+        return f"Name - {self.name},  Email - {self.email}"

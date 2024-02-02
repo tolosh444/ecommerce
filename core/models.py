@@ -3,21 +3,7 @@ from core.abstact_models import AbstractBaseModel
 from django.utils.translation import gettext_lazy as _
 # Create your models here.
 
-class NewsLetter(AbstractBaseModel):
-    name = models.CharField(
-        _('Name'),
-        max_length=20
-    )
-    email = models.EmailField(
-        _('Email'),
-        max_length=30
-    )
-    class Meta:
-        verbose_name = _('News Letter')
-        verbose_name_plural = _('News Letters')
 
-    def __str__(self):
-        return f"Name: {self.name}. Subject: {self.email}"
 
 class ContactUs(AbstractBaseModel):
     full_name = models.CharField(

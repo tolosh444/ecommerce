@@ -1,5 +1,6 @@
 from django import forms
-from .models import ContactUs, NewsLetter
+from .models import ContactUs
+from product.models import Subscrabed
 from django.utils.translation import gettext_lazy as _
 
 
@@ -11,7 +12,8 @@ class ContactForm(forms.ModelForm):
         fields = ['full_name', 'email', 'subject', 'message', 'phone_number']
 
 
-class BaseContactForm(forms.ModelForm):
+
+class SubscribeForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control',
         'type': "text",
@@ -31,7 +33,7 @@ class BaseContactForm(forms.ModelForm):
     }))
 
     class Meta:
-        model = NewsLetter
+        model = Subscrabed
         fields = ('name', 'email',)
 
 

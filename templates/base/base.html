@@ -295,7 +295,7 @@
 
                <div class="col-md-4 mb-5" style="margin-left: auto;">
                       <h5 class="font-weight-bold text-dark mb-1">Newsletter</h5>
-                      <form action="{% fullurl 'base-contact' %}" method="POST">
+                      <form action="{% fullurl 'subscribe' %}" method="POST">
                         {% csrf_token %}
                         <div class="control-group">
                           <label class="mt-3">Name</label>

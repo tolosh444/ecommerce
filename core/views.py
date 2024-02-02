@@ -1,16 +1,21 @@
+
+
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-
+from django.utils.translation import gettext_lazy as _
 from order.models import Wishlist, Order
 
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.contrib import messages
-from .forms import ContactForm, BaseContactForm
-from product.models import Product, Category, SubCategory
+from .forms import ContactForm, SubscribeForm
+from product.models import Product, Category, SubCategory, Subscrabed
 
-from .models import NewsLetter
+#email
+from django.core.mail import send_mail
+import smtplib
+from email.message import EmailMessage
 
 
 # Create your views here.
@@ -29,8 +34,6 @@ def contact(request):
 
     categories = Category.objects.all()
     sub_categories = SubCategory.objects.all()
-    # wishlist_count = Wishlist.objects.filter(user=request.user).count()
-    # shopping_count = Order.objects.filter(user=request.user).count()
 
     current_url = reverse_lazy("contact-us")
 
@@ -56,16 +59,43 @@ def contact(request):
     }
     return render(request, 'contact/contact.html', context)
 
-def base_contact(request):
+# def base_contact(request):
+#
+#     if request.method == 'POST':
+#         form = BaseContactForm(request.POST or None)
+#         if form.is_valid():
+#             form.save()
+#             return redirect(reverse_lazy('home'))
+#         else:
+#             form = BaseContactForm()
+#         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
+
+def subscribe_success(request):
     if request.method == 'POST':
-        form = BaseContactForm(request.POST or None)
-        if form.is_valid():
-            form.save()
+        email = request.POST.get('email')
+        name = request.POST.get('name')
+        if not Subscrabed.objects.filter(email=email).exists():
+            Subscrabed.objects.create(email=email, name=name)
+            messages.success(request, _("Congratulations! You have successfully subscribed."))
+            send_mail(
+                subject="Thank you for subscribing!",
+                message=f"{name}! Welcome to E-commerce!",
+                from_email="talishaqil@yandex.com",
+                recipient_list=[email]
+            )
             return redirect(reverse_lazy('home'))
         else:
-            form = BaseContactForm()
+            messages.error(request, _("You have already subscribed!"))
+
         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+
+
+
+
+
 
 
 def index(request):
@@ -78,17 +108,7 @@ def index(request):
     wishlist_count = Wishlist.objects.filter(user=request.user.id).count()
     shopping_count = Order.objects.filter(user=request.user.id).count()
 
-    # if request.method == "GET":
-    #     form = NewsLetterForm()
-    # else:
-    #     form = NewsLetterForm(request.POST or None)
-    #     if form.is_valid():
-    #         form.save()
-    #         messages.success(request, ("Thank you for subscribtion!"))
-    #         return redirect(reverse_lazy("home"))
-    #     else:
-    #         messages.error(request, ("Something went wrong!!!"))
-    #         return redirect(reverse_lazy("home"))
+
 
     context = {
         "wishlist_count": wishlist_count,
