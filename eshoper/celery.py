@@ -1,23 +1,23 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
-
-
+from django.conf import settings
+from celery import Celery
 import logging
 import os
-
-
-from celery import Celery
 from celery.schedules import crontab
-from django.conf import settings
+from celery.schedules import timedelta
+
 
 logger = logging.getLogger("Celery")
-
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'eshoper.settings')
-
 app = Celery('eshoper')
-
 app.config_from_object('django.conf:settings', namespace='CELERY')
-
+app.conf.beat_schedule = {
+    'send-mail-task': {
+        'task': 'core.tasks.send_mail_task',
+        'schedule': crontab(hour=15, minute=0, day_of_week=5),  # every 30 seconds
+    },
+}
 # app.conf.beat_schedule = {
 #     'send_sms_to_customs_task': {
 #         'task': 'import_orders.tasks.send_sms_to_customs_task',
@@ -36,11 +36,7 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 #         'schedule': crontab(hour=10, minute=0),
 #     },
 # }
-
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
-app.autodiscover_tasks()
-
-
 @app.task(bind=True, ignore_result=True)
 def debug_task(self):
     print(f'Request: {self.request!r}')
@@ -57,7 +53,7 @@ if not settings.DEBUG:
         CELERY_ACCEPT_CONTENT=['json', ],
         CELERY_TASK_SERIALIZER='json',
         CELERY_RESULT_SERIALIZER='json',
-        CELERY_TIMEZONE='Asia/Baku',
+        CELERY_TIMEZONE='America/New_York',
     )
 else:
     app.conf.update(
@@ -68,5 +64,5 @@ else:
         CELERY_ACCEPT_CONTENT=['json', ],
         CELERY_TASK_SERIALIZER='json',
         CELERY_RESULT_SERIALIZER='json',
-        CELERY_TIMEZONE='Asia/Baku',
+        CELERY_TIMEZONE='America/New_York',
     )
