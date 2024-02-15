@@ -78,9 +78,11 @@ class ProductImage(AbstractBaseModel):
 
 
 class Category(AbstractBaseModel):
+    title = models.CharField(_('Title'), max_length=50, default='Categoties', blank=True)
     name = models.CharField(
-        _('Name'), max_length=100
+        _('Name'), max_length=100, null=True, blank=True
     )
+    # name_ru = models.CharField(_('Name English'), max_length=50, null=True, blank=True)
     image = models.ImageField(
         _('Image'),
         upload_to='Category_Image',

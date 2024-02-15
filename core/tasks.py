@@ -8,8 +8,8 @@ def send_mail_task():
     from product.models import Subscrabed
     subscrabed = Subscrabed.objects.all()
     print("Mail sending.......")
-    subject = 'Welcome to Celery world'
-    message = 'Hi, thank you for using Celery'
+    subject = 'Welcome to Eshopper.com'
+    message = 'Hi, thank you for using our service'
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [user.email for user in subscrabed]
     send_mail(subject, message, email_from, recipient_list)

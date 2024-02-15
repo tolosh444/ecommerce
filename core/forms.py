@@ -2,6 +2,7 @@ from django import forms
 from .models import ContactUs
 from product.models import Subscrabed
 from django.utils.translation import gettext_lazy as _
+from .tasks import send_mail_task
 
 
 class ContactForm(forms.ModelForm):
@@ -31,6 +32,11 @@ class SubscribeForm(forms.ModelForm):
         'placeholder': 'Your Email...',
         'style': 'opacity: 0.8;'
     }))
+    def send_email(self):
+        send_mail_task.apply_async(args=[
+    self.cleaned_data["email"], self.cleaned_data["name"]
+    ]
+)
 
     class Meta:
         model = Subscrabed

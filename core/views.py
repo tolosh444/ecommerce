@@ -1,5 +1,4 @@
-
-
+from celery import shared_task
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -70,7 +69,7 @@ def contact(request):
 #             form = BaseContactForm()
 #         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-
+@shared_task
 def subscribe_success(request):
     if request.method == 'POST':
         email = request.POST.get('email')

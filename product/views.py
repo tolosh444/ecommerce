@@ -334,3 +334,5 @@ def sub_category_list(request, cat_slug, sub_slug):
 def add_review(request, pid):
     product = get_object_or_404(Product, id=pid)
     user = request.user
+
+
