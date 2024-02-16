@@ -46,9 +46,9 @@ class AccountUpdateView(LoginRequiredMixin,generic.UpdateView):
     def get_object(self, queryset=None):
 
         # Get the object based on the logged-in user or any other criteria
-        return get_object_or_404(Account, pk=self.kwargs['account_id'])
+        return get_object_or_404(Account, pk=self.kwargs['id'])
 
     def get_success_url(self):
         print(self.object.pk)
         # Redirect to a success URL after a successful update
-        return reverse('profile', kwargs={'account_id': self.object.pk})
+        return reverse('profile', kwargs={'id': self.object.id})

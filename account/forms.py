@@ -34,6 +34,9 @@ class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={
         'placeholder': _('youremail@example.com')
     }))
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'placeholder':_('Your username')
+    }))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder': '*********'
     }))
@@ -44,9 +47,25 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta:
         model = Account
-        fields = ['first_name', 'last_name', 'gender', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'gender', 'email', 'username', 'password1', 'password2']
 
 class UserProfileForm(UserChangeForm):
+    first_name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control'
+    }))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control'
+    }))
+    username = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control', 'readonly': True
+    }))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'form-control', 'readonly': True
+    }))
+    image = forms.ImageField(widget=forms.FileInput(attrs={
+        'class': 'form-control-file'
+    }))
+    gender = forms.RadioSelect()
     class Meta:
         model = Account
-        fields = ['first_name', 'last_name', 'image', 'gender', 'email']
+        fields = ['first_name', 'last_name','username', 'image', 'gender', 'email']

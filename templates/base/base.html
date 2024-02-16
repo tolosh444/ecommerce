@@ -221,11 +221,14 @@
                     <div class="navbar-nav ml-auto py-0">
                         {% if user.is_authenticated %}
                         <div class="dropdown">
+                             {% if user.image %}
+                                <img src="{{ user.image.url }}" alt="Profile Image" class="img-fluid mr-3 rounded-circle" style="width: 30px; height: 30px; ">
+                            {% endif %}
                             <a href="{% url 'home' %}" class="dropdown-toggle" data-bs-toggle="dropdown">{{user.get_full_name|title}}</a>
                             <div class="dropdown-menu">
                                 <a href="{% url 'shopping-cart' %}" class="dropdown-item">Shopping Cart</a>
                                 <a href="{% url 'checkout-order' %}" class="dropdown-item">Checkout</a>
-                                <a href="{% url 'profile' profile.pk %}" class="dropdown-item">Profile</a>
+                                <a href="{% url 'profile' id=request.user.id %}" class="dropdown-item">Profile</a>
                                 <a href="{% url 'logout' %}" class="dropdown-item">Log out</a>
                             </div>
                             {% else %}

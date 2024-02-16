@@ -198,7 +198,7 @@
                                 {% if pro_reviews %}
                                  {% for review in pro_reviews %}
                                     <div class="media mb-4" style="border-radius: 10px; border: 1px solid #ccc; padding: 10px;">
-                                        <img src="{{ review.user.image.url }}" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px; border-radius: 20px;">
+                                        <img src="{{ review.user.image.url }}" alt="Profile Image" class="img-fluid mr-3 mt-1" style="width: 45px; border-radius: 25px;">
                                         <div class="media-body">
                                             <h6>{{ review.user.username }}<small> - <i>{{ review.created_at|date:"Y-m-d"}}</i></small></h6>
                                             <div class="text-primary mb-2">

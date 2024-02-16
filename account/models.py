@@ -1,5 +1,3 @@
-import uuid
-
 from django.contrib.auth.models import AbstractUser, UserManager as BaseUserManager
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -28,10 +26,9 @@ class Account(AbstractUser):
         ("F", "Female"),
     )
 
-    username = models.CharField(_('username'), max_length=255, blank=True, null=True)
+    username = models.CharField(_('username'), max_length=255, unique=True, blank=True, null=True)
     email = models.EmailField(_("email address"), unique=True, null=True)
-    image = models.ImageField(_('Image'), upload_to='UserImage', null=True, blank=True)
-    # account_id = models.AutoField(primary_key=True, default=uuid.uuid4, editable=False)
+    image = models.ImageField(_('Image'), upload_to='UserImage', null=True, blank=True, default='default.jpg')
     gender = models.TextField(
         _("Gender"),
         choices=GENDERS, null=True, blank=True
