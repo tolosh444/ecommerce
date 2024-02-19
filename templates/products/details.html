@@ -240,7 +240,7 @@
                                     </div>
                                     {%else%}
                                     <div class="form-group mb-0">
-                                        <button type="reset" value="Leave Your Review" class="btn btn-primary px-3"><i class="fa fa-pencil-square-o mr-1"></i> Add Review</button>
+                                        <a href="{% url 'login' %}"><button type="button" value="Leave Your Review" class="btn btn-primary px-3"><i class="fa fa-pencil-square-o mr-1"></i> Add Review</button></a>
                                     </div>
                                     {%endif%}
                                 </form>

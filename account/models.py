@@ -28,7 +28,7 @@ class Account(AbstractUser):
 
     username = models.CharField(_('username'), max_length=255, unique=True, blank=True, null=True)
     email = models.EmailField(_("email address"), unique=True, null=True)
-    image = models.ImageField(_('Image'), upload_to='UserImage', null=True, blank=True, default='default.jpg')
+    image = models.ImageField(_('Image'), upload_to='UserImage', null=True, blank=True, default='UserImage/default.jpg')
     gender = models.TextField(
         _("Gender"),
         choices=GENDERS, null=True, blank=True

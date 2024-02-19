@@ -117,7 +117,7 @@ def product_list(request, slug):
     return render(request, "products/details.html", context)
 
 
-
+@login_required
 def product_review(request, slug):
     # Review form for Product
     review_form = ProductReviewForm()
