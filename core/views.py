@@ -1,21 +1,20 @@
-from celery import shared_task
-from django.contrib.auth.models import AnonymousUser
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
-from django.utils.translation import gettext_lazy as _
-from order.models import Wishlist, Order
-
-from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
-from django.contrib import messages
-from .forms import ContactForm, SubscribeForm
-from product.models import Product, Category, SubCategory, Subscrabed
-
-#email
-from django.core.mail import send_mail
 import smtplib
 from email.message import EmailMessage
 
+from celery import shared_task
+from django.contrib import messages
+from django.contrib.auth.models import AnonymousUser
+#email
+from django.core.mail import send_mail
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
+
+from order.models import Order, Wishlist
+from product.models import Category, Product, SubCategory, Subscrabed
+
+from .forms import ContactForm, SubscribeForm
 
 # Create your views here.
 
@@ -69,7 +68,7 @@ def contact(request):
 #             form = BaseContactForm()
 #         return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-@shared_task
+
 def subscribe_success(request):
     if request.method == 'POST':
         email = request.POST.get('email')

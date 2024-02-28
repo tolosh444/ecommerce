@@ -1,5 +1,8 @@
 from django.contrib import admin
-from .models import Product, ProductImage, Category, SubCategory, ProductReviews, Subscrabed
+
+from .models import (Category, Product, ProductImage, ProductReviews,
+                     SubCategory, Subscrabed)
+
 # Register your models here.
 
 admin.site.register(ProductReviews)
@@ -22,3 +25,4 @@ class ProductImgAdmin(admin.ModelAdmin):
     list_display = ['name']
     inlines = [PointInlineAdmin]
     prepopulated_fields = {'slug': ('name',)}
+    search_fields = ('name',)

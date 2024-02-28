@@ -1,11 +1,10 @@
-from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import (add_to_wishlist, users_wishlist,
-                    users_shopping_cart, add_to_shopping_cart,
-                    delete_from_wishlist, delete_from_cart,
-                    checkout_order, place_order, save_data
-                    )
+from django.urls import path
+
+from .views import (add_to_shopping_cart, add_to_wishlist, checkout_order,
+                    delete_from_cart, delete_from_wishlist, place_order,
+                    save_data, users_shopping_cart, users_wishlist)
 
 urlpatterns = [
     # wishlist

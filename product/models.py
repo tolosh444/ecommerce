@@ -1,11 +1,11 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
-from core.choices import SIZE_CHOICE, PRICE_CURRENCY, COLOR_CHOICES, RATING_CHOICES
-from core.abstact_models import AbstractBaseModel
+from django.utils.translation import gettext_lazy as _
 
 from account.views import User
-
+from core.abstact_models import AbstractBaseModel
+from core.choices import (COLOR_CHOICES, PRICE_CURRENCY, RATING_CHOICES,
+                          SIZE_CHOICE)
 
 # Create your models here.
 

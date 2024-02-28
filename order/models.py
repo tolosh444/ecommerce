@@ -1,7 +1,9 @@
 from django.db import models
-from core.abstact_models import AbstractBaseModel
 from django.utils.translation import gettext_lazy as _
-from core.choices import STATUS_CHOICES, SIZE_CHOICE, COUNTRY_CHOICES, COLOR_CHOICES
+
+from core.abstact_models import AbstractBaseModel
+from core.choices import (COLOR_CHOICES, COUNTRY_CHOICES, SIZE_CHOICE,
+                          STATUS_CHOICES)
 
 
 class Order(AbstractBaseModel):

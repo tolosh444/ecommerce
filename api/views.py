@@ -1,7 +1,8 @@
-from django.shortcuts import render
 from django.utils.text import slugify
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions
+
 from product.models import Product
+
 from .serializers import ProductSerializer
 
 
@@ -17,6 +18,7 @@ class ProductCreateAPIView(generics.CreateAPIView):
         return instance
 
 class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = "id"

@@ -1,5 +1,6 @@
-from django.urls import path, include
-from .views import index, contact, subscribe_success
+from django.urls import include, path
+
+from .views import contact, index, subscribe_success
 
 urlpatterns = [
     path('', index, name="home"),

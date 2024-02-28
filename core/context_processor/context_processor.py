@@ -1,5 +1,5 @@
-from core.models import Settings
 from core.forms import SubscribeForm
+from core.models import Settings
 
 
 def settings(request):

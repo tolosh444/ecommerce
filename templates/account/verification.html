@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% load static widget_tweaks%}
+{% load static i18n %}
+{% block content %}
+<div class="container pt-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title px-5"><span class="px-2">VERIFICATION COMPLETED</span></h2>
+        </div>
+
+        <div class="text-center row px-xl-5">
+            <div class="col-lg-7 mb-5" style="margin-left: 220px;">
+                <div class="contact-form">
+                    <div id="success"></div>
+
+                        <p class="text-success">Your email has been successfully verified. You can now <a href="{% url 'login' %}">LOG IN</a>.</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

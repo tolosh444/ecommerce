@@ -1,7 +1,7 @@
 from rest_framework import generics, permissions
 
-from .serializers import OrderSerializer
 from ..models import Order
+from .serializers import OrderSerializer
 
 
 class OrderCreateAPIView(generics.CreateAPIView):

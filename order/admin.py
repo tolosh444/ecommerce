@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Order, Wishlist, Checkout, CheckoutItem
+
+from .models import Checkout, CheckoutItem, Order, Wishlist
+
 # Register your models here.
 # admin.site.register(Order)
 admin.site.register(Wishlist)
@@ -24,8 +26,13 @@ class ContactUsAdmin(admin.ModelAdmin):
 @admin.register(CheckoutItem)
 class ContactUsAdmin(admin.ModelAdmin):
     list_display = ['get_users_first_name', 'product', 'created_at']
+    search_fields = ('product__name',  )
 
     def get_users_first_name(self, obj):
         return f"{obj.checkout.user.first_name} / {obj.checkout.user.last_name}"
 
     get_users_first_name.short_description = 'Users Full Name'
+
+class BasketAdmin(admin.TabularInline):
+    model = Order
+    fields = ('product',)

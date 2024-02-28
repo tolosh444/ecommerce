@@ -1,12 +1,11 @@
-from __future__ import absolute_import
-from __future__ import unicode_literals
-from django.conf import settings
-from celery import Celery
+from __future__ import absolute_import, unicode_literals
+
 import logging
 import os
-from celery.schedules import crontab
-from celery.schedules import timedelta
 
+from celery import Celery
+from celery.schedules import crontab, timedelta
+from django.conf import settings
 
 logger = logging.getLogger("Celery")
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'eshoper.settings')

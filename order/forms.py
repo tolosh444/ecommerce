@@ -1,7 +1,10 @@
 from django import forms
-from .models import Order
-from core.choices import SIZE_CHOICE
 from django.utils.translation import gettext_lazy as _
+
+from core.choices import SIZE_CHOICE
+
+from .models import Order
+
 
 class OrderForm(forms.ModelForm):
     size = forms.ChoiceField(

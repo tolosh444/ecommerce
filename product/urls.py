@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import ProductListView, product_list, product_search, category_list, sub_category_list, add_review, product_review
 
+from .views import (ProductListView, add_review, category_list, product_list,
+                    product_review, product_search, sub_category_list)
+from django.views.decorators.cache import cache_page
 
 urlpatterns = [
-    path("products", ProductListView.as_view(), name="products"),
+    path("products", cache_page(30)(ProductListView.as_view()), name="products"),
     path("product-detail/<slug:slug>", product_list, name="product-detail"),
     path('search-product', product_search, name='product-search'),
     #category

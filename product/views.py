@@ -1,15 +1,17 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import JsonResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Avg, Q
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView
-from order.models import Wishlist, Order
-from .models import Product, Category, SubCategory, ProductReviews
+
+from core.choices import COLOR_CHOICES, RATING_CHOICES, SIZE_CHOICE
 from core.utils.helpers import get_values_from_choices
-from core.choices import SIZE_CHOICE, COLOR_CHOICES, RATING_CHOICES
-from django.db.models import Q, Avg
+from order.models import Order, Wishlist
+
 from .forms import ProductReviewForm
+from .models import Category, Product, ProductReviews, SubCategory
 
 
 class ProductListView(ListView):
@@ -334,5 +336,6 @@ def sub_category_list(request, cat_slug, sub_slug):
 def add_review(request, pid):
     product = get_object_or_404(Product, id=pid)
     user = request.user
+    return HttpResponseRedirect(redirect_to='/')
 
 

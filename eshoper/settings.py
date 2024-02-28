@@ -15,7 +15,6 @@ from pathlib import Path
 
 from django.utils.translation import gettext_lazy as _
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -37,6 +36,8 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-gs)fo+i(zw+m0m47azvry+)vbr
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
+DOMAIN_NAME = "http://0.0.0.0:8000"
 
 AUTH_USER_MODEL = 'account.Account'
 
@@ -163,7 +164,7 @@ MODELTRANSLATION_DEFAULT_LANGUAGE = "en"
 MODELTRANSLATION_LANGUAGES = ("en", "ru")
 
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'America/New_York'
 
@@ -218,6 +219,7 @@ EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_PASS'))
 # Celery conf
 
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
@@ -225,7 +227,7 @@ CELERY_TIMEZONE = 'America/New_York'
 
 
 
-CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+
 
 # Corrected CELERY_BEAT_SCHEDULE configuration
 # CELERY_BEAT_SCHEDULE = {

@@ -1,13 +1,14 @@
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse_lazy, reverse
-from django.contrib import messages
-from product.models import Product, Category, SubCategory
-
-from .models import Wishlist, Order, Checkout, CheckoutItem
-from core.choices import STATUS_CHOICES
 import random
+
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
+
+from core.choices import STATUS_CHOICES
+from product.models import Category, Product, SubCategory
+
+from .models import Checkout, CheckoutItem, Order, Wishlist
 
 # Create your views here.
 
@@ -32,8 +33,6 @@ def delete_from_wishlist(request, product_id):
     try:
         wishlist = Wishlist.objects.get(user=user, product=product)
         wishlist.delete()
-
-
         messages.success(request, "Product deleted from wishlist.")
     except Wishlist.DoesNotExist:
         messages.error(request, "Something went wrong.")
@@ -215,3 +214,5 @@ def place_order(request):
     }
 
     return redirect('/')
+
+

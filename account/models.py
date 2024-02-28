@@ -1,6 +1,12 @@
-from django.contrib.auth.models import AbstractUser, UserManager as BaseUserManager
+from django.contrib.auth.models import AbstractUser
+from django.core.mail import send_mail
+
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
+
+from core.abstact_models import AbstractBaseModel
 
 
 # from .abstract_models import AbstractBaseModel
@@ -33,6 +39,7 @@ class Account(AbstractUser):
         _("Gender"),
         choices=GENDERS, null=True, blank=True
     )
+    is_verified = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
@@ -43,3 +50,28 @@ class Account(AbstractUser):
 
     def __str__(self):
         return f"Account: {self.email}"
+
+
+class EmailVerification(AbstractBaseModel):
+    code = models.UUIDField(unique=True)
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    experation = models.DateTimeField()
+
+
+    def __str__(self):
+        return f"Email verification for: {self.user.email}"
+
+    def sen_verification_email(self):
+        link = reverse('verification', kwargs={'email': self.user.email, 'code': self.code})
+        verification_link = f"{settings.DOMAIN_NAME}{link}"
+        subject = f"Verification link for {self.user.username}"
+        message = f"To verify your account({self.user.email}), click the link below:\n\n{verification_link}"
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[self.user.email],
+            fail_silently=False
+
+        )
