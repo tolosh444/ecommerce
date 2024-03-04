@@ -7,7 +7,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from core.choices import STATUS_CHOICES
 from product.models import Category, Product, SubCategory
-
 from .models import Checkout, CheckoutItem, Order, Wishlist
 
 # Create your views here.
@@ -214,5 +213,6 @@ def place_order(request):
     }
 
     return redirect('/')
+
 
 

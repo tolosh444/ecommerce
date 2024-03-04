@@ -11,8 +11,10 @@ SIZE_CHOICE = (
 # Order class status choice
 
 STATUS_CHOICES = (
-    ('BASKET', 'BASKET'),
-    ('DONE', 'Done'),
+    ('BASKET', 'Created'),
+    ('PAYED', 'Payed'),
+    ('ON_WAY', 'On Way'),
+    ('DONE', 'Delivered'),
 )
 
 PRICE_CURRENCY = (

@@ -76,9 +76,13 @@
                             <h5 class="font-weight-bold">Total</h5>
                             <h5 class="font-weight-bold">{{ grand_total }}</h5>
                         </div>
+                        {% if user.is_verified %}
                         <a href="{% url 'checkout-order'  %}">
                             <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
                         </a>
+                        {% else %}
+                        <p class="alert-danger text-center mt-1" > Please verify your account to continue! </p>
+                        {% endif %}
 
                     </div>
                 </div>
